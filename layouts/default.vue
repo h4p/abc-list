@@ -30,20 +30,11 @@
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <!-- <v-btn
-        class="ma-2"
-        small
-        outlined
-        fab
-      >
-      <v-icon>mdi-account</v-icon>
-      </v-btn> -->
       <v-menu
       open-on-hover
-      top
       offset-y
     >
-      <template v-slot:activator="{ on, attrs }">
+      <template #activator="{ on, attrs }">
         <v-btn
           class="ma-2"
           medium
@@ -58,10 +49,17 @@
 
       <v-list>
         <v-list-item
-          v-for="(item, index) in profile_menu_items"
-          :key="index"
+        v-if="$auth.loggedIn == false"
+        to="/login"
         >
-          <v-list-item-title><a href="/foo">{{ item.title }}</a></v-list-item-title>
+        <v-list-item-title>Login</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item
+        v-if="$auth.loggedIn == true"
+        @click="logoutUser()"
+        >
+        <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -86,6 +84,23 @@
           </v-card-text>
         </v-card>
       </v-footer>
+
+      <v-snackbar v-model="snackbar">
+        {{ text }}
+
+        <template #action="{ attrs }">
+          <v-btn
+            color="pink"
+            text
+            v-bind="attrs"
+            @click="snackbar = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+
+
   </v-app>
 </template>
 
@@ -118,6 +133,16 @@ export default {
           title: 'New',
           to: '/list',
         },
+        {
+          icon: 'mdi-login',
+          title: 'Login',
+          to: '/login',
+        },
+        {
+          icon: 'mdi-airplane-plus',
+          title: 'Snackbar-test',
+          to: '/snackbar-test',
+        },
       ],
       miniVariant: false,
       right: true,
@@ -126,7 +151,28 @@ export default {
         { 'title': 'My settings' },
         { 'title': 'Logout' }
       ],
+      snackbar: false,
+      text: `Hello, I'm a snackbar`,
+
     }
   },
+  methods: {
+    async logoutUser() {
+      this.$auth.$storage.removeUniversal('user')
+      const tokens = this.$auth.$storage.getUniversal('tokens')
+      await this.$auth.logout({
+          data: {
+              refreshToken: tokens.refresh.token
+          }
+      });
+      this.$auth.$storage.removeUniversal('tokens')
+      this.$router.push('/')
+      this.snackbar = true
+      this.text = "Logout successful"
+    },
+    displaySnackbar() {
+        this.snackbar = true;
+      }
+  }
 }
 </script>

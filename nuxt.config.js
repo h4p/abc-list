@@ -45,12 +45,41 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
   ],
+
+  // In case of global usage, you can set auth option to false in a
+  // specific component and the middleware will ignore that route.
+  // router: {
+    // middleware: ['auth']
+  // },
+
+  // Example for a token based flow
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'tokens.access.token',
+          global: true,
+          // required: true,
+          // type: 'Bearer'
+        },
+        endpoints: {
+          login: { url: '/auth/login', method: 'post' },
+          logout: { url: '/auth/logout', method: 'post' },
+          // refresh: { url: '/auth/refresh-tokens', method: 'post' },
+          // user: { url: '/users', method: 'get' }
+          user: false // setting user fetch api to false
+        }
+      }
+    }
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: 'http://localhost:3000/v1',
+    browserBaseURL: 'http://localhost:3000/v1',
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

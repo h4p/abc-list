@@ -29,6 +29,7 @@
 <script>
 export default {
     name: 'OverviewPage',
+    middleware: 'auth',
 
     data: () => ({
       selectedItem: 1,
@@ -38,7 +39,7 @@ export default {
         { id: 3, text: '2022-01-06 17:22:01', completed: 26, thema: 'Raketen' },
         { id: 4, text: '2022-01-07 17:26:01', completed: 26, thema: 'Coding' },
       ],
-    }),
+    })
   }
 
 </script>

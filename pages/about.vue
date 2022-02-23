@@ -15,6 +15,7 @@
 
     <NuxtLink to="/about">About Page</NuxtLink>
   </div>
+
 </template>
 <script>
 export default {
