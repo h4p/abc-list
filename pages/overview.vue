@@ -5,18 +5,20 @@
           <thead>
             <tr>
               <th class="text-center">Icon</th>
-              <th class="text-center">Thema</th>
-              <th class="text-center">Creation date</th>
+              <th class="text-center">Topic</th>
+              <th class="text-center">Last modified by me</th>
               <th class="text-center">Completed</th>
+              <th class="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr
-              v-for="item in lists" :key="item.text">
+              v-for="item in lists.results" :key="item.text">
               <td><v-icon>mdi-book</v-icon></td>
-              <td>{{ item.thema }}</td>
-              <td><NuxtLink to="/about/$route.params.">{{ item.text }}</NuxtLink></td>
-              <td>{{ item.completed }}</td>
+              <td>{{ item.topic }}</td>
+              <td>{{ formatDate(item.updatedAt) }}</td>
+              <td>{{ Object.keys(item.abclist).length }} / 26</td>
+              <td><v-btn color="primary" nuxt :to="{path: '/list',query:{abclistId:item._id}}">Open</v-btn></td>
             </tr>
           </tbody>
       </v-simple-table>
@@ -39,7 +41,45 @@ export default {
         { id: 3, text: '2022-01-06 17:22:01', completed: 26, thema: 'Raketen' },
         { id: 4, text: '2022-01-07 17:26:01', completed: 26, thema: 'Coding' },
       ],
-    })
+    }),
+
+    // **** Lifecycle Hooks **** //
+    created() {
+      // eslint-disable-next-line no-console
+      console.log('Component has been created!');
+      // The advantage of using created instead of mounted is that
+      // created will be called a little sooner. This means you'll
+      // get your data just a tiny bit faster.
+      // Created hooks doesn't have access to the DOM.
+
+      // eslint-disable-next-line no-console
+      console.log("Fetching abclists")
+      this.$axios.$get('http://localhost:3000/v1/abclists')
+        .then((lists) => {
+          this.lists = lists;
+        })
+        .catch((err) => {
+          // If any part of the chain is rejected, print the error message.
+          console.log(err);
+        });
+
+    },
+    mounted() {
+      // eslint-disable-next-line no-console
+      console.log('Component has been mounted!');
+
+      // DOM is ready by now. Component was added to DOM
+    },
+    destroyed() {
+      // eslint-disable-next-line no-console
+      console.log('Component has been destroyed!');
+    },
+    methods: {
+      formatDate(date) {
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }
+        return new Date(date).toLocaleDateString('de', options)
+      },
+    },
   }
 
 </script>
