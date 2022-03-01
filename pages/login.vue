@@ -71,18 +71,12 @@ export default {
 
         user = this.$auth.$storage.getUniversal('user') // getting user (you can use it anywhere in your app)
         /* eslint-disable no-console */
-        console.log(user) // checking user
 
-        let tokens = res.data.tokens
-        this.$auth.$storage.setUniversal('tokens', tokens, true);
+        this.$auth.strategy.token.set(res.data.tokens.access.token)
+        this.$auth.strategy.refreshToken.set(res.data.tokens.refresh.token)
 
-        tokens = this.$auth.$storage.getUniversal('tokens')
-        console.log(tokens)
-
-        this.$parent.text = "Login was successful"
-        this.$parent.snackbar = true
-
-        // this.$router.push('/') // redirecting after login
+        this.$emit('userLoggedIn')
+        this.$router.push('/') // redirecting after login
       }).catch(err => {
         console.log(err.response)
       })

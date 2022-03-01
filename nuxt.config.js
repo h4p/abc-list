@@ -58,17 +58,22 @@ export default {
   auth: {
     strategies: {
       local: {
+        scheme: 'refresh',
         token: {
           property: 'tokens.access.token',
+          maxAge: 1800,
           global: true,
-          // required: true,
-          // type: 'Bearer'
         },
+        refreshToken: {
+          property: 'tokens.refresh.token',
+          data: 'refresh_token',
+          maxAge: 86400
+        },
+
         endpoints: {
           login: { url: '/auth/login', method: 'post' },
           logout: { url: '/auth/logout', method: 'post' },
-          // refresh: { url: '/auth/refresh-tokens', method: 'post' },
-          // user: { url: '/users', method: 'get' }
+          refresh: { url: '/auth/refresh-tokens', method: 'post' },
           user: false // setting user fetch api to false
         }
       }
