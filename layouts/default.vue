@@ -85,7 +85,7 @@
         </v-card>
       </v-footer>
 
-      <v-snackbar v-model="snackbar">
+      <v-snackbar v-model="snackbar" :timeout="timeout" :multi-line="multiLine" top @userLoggedIn="snackbar=true">
         {{ text }}
 
         <template #action="{ attrs }">
@@ -151,7 +151,11 @@ export default {
         { 'title': 'My settings' },
         { 'title': 'Logout' }
       ],
+
+      // Snackbar
       snackbar: false,
+      timeout: 2000,
+      multiLine: true,
       text: `Hello, I'm a snackbar`,
 
     }
@@ -159,20 +163,17 @@ export default {
   methods: {
     async logoutUser() {
       this.$auth.$storage.removeUniversal('user')
-      const tokens = this.$auth.$storage.getUniversal('tokens')
+
       await this.$auth.logout({
           data: {
-              refreshToken: tokens.refresh.token
+              refreshToken: this.$auth.strategy.refreshToken.get().replaceAll('Bearer ', '').replaceAll('"', '')
           }
       });
-      this.$auth.$storage.removeUniversal('tokens')
+
       this.$router.push('/')
       this.snackbar = true
       this.text = "Logout successful"
     },
-    displaySnackbar() {
-        this.snackbar = true;
-      }
   }
 }
 </script>
