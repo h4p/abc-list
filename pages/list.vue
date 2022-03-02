@@ -1,6 +1,13 @@
 <template>
-  <v-form>
+  <v-form @submit.prevent="updateList">
     <v-container>
+
+      <v-row>
+        <v-col class="text-right">
+          <v-btn color="primary" type="submit">Save</v-btn>
+          <v-btn color="tertiary" type="submit">Abort</v-btn>
+        </v-col>
+      </v-row>
 
       <v-row v-if="abcList">
         <v-col>
@@ -37,7 +44,7 @@ export default {
       }
     });
   },
-// **** Lifecycle Hooks **** //
+    // **** Lifecycle Hooks **** //
     created() {
       console.log('Component has been created!');
       // The advantage of using created instead of mounted is that
@@ -77,6 +84,18 @@ export default {
     },
     destroyed() {
       console.log('Component has been destroyed!');
+    },
+    methods: {
+      async updateList() {
+        await this.$axios.$put('http://localhost:3000/v1/abclists/'+this.$route.query.abclistId, this.abcList)
+          .then((lists) => {
+            this.lists = lists;
+          })
+          .catch((err) => {
+            // If any part of the chain is rejected, print the error message.
+            console.log(err);
+          });
+      }
     },
 }
 </script>
