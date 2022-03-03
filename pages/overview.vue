@@ -17,7 +17,7 @@
               <td><v-icon>mdi-book</v-icon></td>
               <td>{{ item.topic }}</td>
               <td>{{ formatDate(item.updatedAt) }}</td>
-              <td>{{ Object.keys(item.abclist).length }} / 26</td>
+              <td>{{ countListItems(item.abclist) }} / 26</td>
               <td><v-btn color="primary" nuxt :to="{path: '/list',query:{abclistId:item._id}}">Open</v-btn></td>
             </tr>
           </tbody>
@@ -78,6 +78,15 @@ export default {
       formatDate(date) {
         const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }
         return new Date(date).toLocaleDateString('de', options)
+      },
+      countListItems(liste) {
+        let count = 0;
+        Object.keys(liste).forEach((key) => {
+          if(liste[key] !== null && liste[key] !== '') {
+            count++;
+          }
+        });
+        return count;
       },
     },
   }
