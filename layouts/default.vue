@@ -23,7 +23,8 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar fixed app dark prominent src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
+    <v-app-bar fixed app dark src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
+    <!-- <v-app-bar fixed app dark> -->
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
@@ -115,12 +116,12 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Welcome',
+          title: 'Home',
           to: '/',
         },
         {
           icon: 'mdi-library',
-          title: 'Overview',
+          title: 'ABC-Listen',
           to: '/overview',
         },
         {
@@ -133,11 +134,6 @@ export default {
           title: 'New',
           to: '/list',
         },
-        // {
-        //   icon: 'mdi-login',
-        //   title: 'Login',
-        //   to: '/login',
-        // },
       ],
       miniVariant: false,
       right: true,
