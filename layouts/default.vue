@@ -85,8 +85,8 @@
         </v-card>
       </v-footer>
 
-      <v-snackbar v-model="snackbar" :timeout="timeout" :multi-line="multiLine" top @userLoggedIn="snackbar=true">
-        {{ text }}
+      <v-snackbar v-model="snackbar" :timeout="timeout" :multi-line="multiLine" top>
+        {{ snackbarMessage }}
 
         <template #action="{ attrs }">
           <v-btn
@@ -133,16 +133,11 @@ export default {
           title: 'New',
           to: '/list',
         },
-        {
-          icon: 'mdi-login',
-          title: 'Login',
-          to: '/login',
-        },
-        {
-          icon: 'mdi-airplane-plus',
-          title: 'Snackbar-test',
-          to: '/snackbar-test',
-        },
+        // {
+        //   icon: 'mdi-login',
+        //   title: 'Login',
+        //   to: '/login',
+        // },
       ],
       miniVariant: false,
       right: true,
@@ -156,9 +151,18 @@ export default {
       snackbar: false,
       timeout: 2000,
       multiLine: true,
-      text: `Hello, I'm a snackbar`,
+      snackbarMessage: 'Hello from snackbar!',
 
     }
+  },
+  created() {
+    this.$root.$on('showSnackbar', message => {
+      this.snackbar = true
+      this.snackbarMessage = message;
+    })
+  },
+  beforeDestroy(){
+    this.$root.$off('showSnackbar')
   },
   methods: {
     async logoutUser() {

@@ -35,12 +35,12 @@ export default {
     return ({
       abcList: {
         "_id": "6218012bf6683b15d099611f",
-        "topic": "Food",
+        "topic": "",
         "abclist": { 'a': '', 'b': '', 'c': '', 'd': '', 'e': '', 'f': '', 'g': '', 'h': '', 'i': '', 'j': '', 'k': '', 'l': '', 'm': '', 'n': '', 'o': '', 'p': '', 'q': '', 'r': '', 's': '', 't': '', 'u': '', 'v': '', 'w': '', 'x': '', 'y': '', 'z': '' },
-        "user": "6210150cd1da4800c2050493",
-        "createdAt": "2022-02-24T22:05:31.610Z",
-        "updatedAt": "2022-02-25T20:36:12.686Z",
-        "id": "6218012bf6683b15d099611f"
+        "user": "",
+        "createdAt": "",
+        "updatedAt": "",
+        "id": ""
       }
     });
   },
@@ -87,12 +87,26 @@ export default {
     },
     methods: {
       async updateList() {
-        await this.$axios.$put('http://localhost:3000/v1/abclists/'+this.$route.query.abclistId, this.abcList)
+
+        // Prepare json object for update
+        const updatedAbclist = Object.assign(this.abcList);
+        delete updatedAbclist._id;
+        delete updatedAbclist.id;
+        delete updatedAbclist.user;
+        delete updatedAbclist.createdAt;
+        delete updatedAbclist.updatedAt;
+
+        console.log('Patching..');
+        await this.$axios.$patch('http://localhost:3000/v1/abclists/'+this.$route.query.abclistId, updatedAbclist)
           .then((lists) => {
+            console.log(lists);
             this.lists = lists;
+            this.$root.$emit('showSnackbar', 'List was updated');
+
           })
           .catch((err) => {
             // If any part of the chain is rejected, print the error message.
+            this.$root.$emit('showSnackbar', 'Oops! An error occurred!');
             console.log(err);
           });
       }

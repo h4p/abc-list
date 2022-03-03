@@ -75,9 +75,11 @@ export default {
         this.$auth.strategy.token.set(res.data.tokens.access.token)
         this.$auth.strategy.refreshToken.set(res.data.tokens.refresh.token)
 
-        this.$emit('userLoggedIn')
+        this.$root.$emit('showSnackbar', 'You are logged in!');
+
         this.$router.push('/') // redirecting after login
       }).catch(err => {
+        this.$root.$emit('showSnackbar', 'Login failed!');
         console.log(err.response)
       })
     }
