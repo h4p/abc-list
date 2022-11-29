@@ -18,7 +18,7 @@
               <td>{{ item.topic }}</td>
               <td>{{ formatDate(item.updatedAt) }}</td>
               <td>{{ countListItems(item.abclist) }} / 26</td>
-              <td><v-btn color="primary" nuxt :to="{path: '/list',query:{abclistId:item._id}}">Open</v-btn></td>
+              <td><v-btn color="primary" nuxt :to="{path: '/list/' + item._id}">Open</v-btn></td>
             </tr>
           </tbody>
       </v-simple-table>
