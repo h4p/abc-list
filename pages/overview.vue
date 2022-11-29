@@ -4,7 +4,7 @@
       <v-simple-table>
           <thead>
             <tr>
-              <th class="text-center">Icon</th>
+              <th class="text-center"></th>
               <th class="text-center">Topic</th>
               <th class="text-center">Last modified by me</th>
               <th class="text-center">Completed</th>

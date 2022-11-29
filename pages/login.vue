@@ -32,6 +32,12 @@
           <v-btn color="primary" width="100%" type="submit">Login</v-btn>
         </v-col>
       </v-row>
+
+      <v-divider></v-divider>
+
+      <p class="text-center">
+      Not a user yet? <NuxtLink to="/registration">Register</NuxtLink> here!
+      </p>
     </v-container>
   </v-form>
 </template>
