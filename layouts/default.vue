@@ -134,6 +134,7 @@ export default {
           title: 'New',
           to: '/list',
         },
+
       ],
       miniVariant: false,
       right: true,
@@ -171,8 +172,7 @@ export default {
       });
 
       this.$router.push('/')
-      this.snackbar = true
-      this.text = "Logout successful"
+      this.$root.$emit('showSnackbar', 'You are logged out!');
     },
   }
 }
