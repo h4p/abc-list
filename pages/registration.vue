@@ -21,12 +21,13 @@
             filled
             outlined
             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.required, rules.min]"
+            :rules="[rules.min, v => !!v || 'field is required']"
             :type="show1 ? 'text' : 'password'"
             name="input-10-1"
             label="Password"
             hint="At least 8 characters"
             counter
+            required
             @click:append="show1 = !show1"
           ></v-text-field>
         </v-col>
@@ -39,12 +40,13 @@
             filled
             outlined
             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.required, rules.min]"
+            :rules="[(registration.password === registration.confirm_password) || 'Password must match']"
             :type="show1 ? 'text' : 'password'"
             name="input-10-1"
             label="Password"
             hint="At least 8 characters"
             counter
+            required
             @click:append="show1 = !show1"
           ></v-text-field>
         </v-col>
@@ -75,13 +77,13 @@ export default {
       rules: {
           required: value => !!value || 'Required.',
           min: v => v.length >= 8 || 'Min 8 characters',
-          emailMatch: () => (`The email and password you entered don't match`),
         },
     }
   },
   methods: {
     async registerNewUser() {
-      await this.$axios.$post('http://localhost:3000/v1/users/', this.registration)
+      const registrationData = {name: this.registration.username, email: this.registration.email, password: this.registration.password}
+      await this.$axios.$post('http://localhost:3000/v1/auth/register', registrationData)
       .then((createdUser) => {
             console.log(createdUser);
             this.createdUser = createdUser;
