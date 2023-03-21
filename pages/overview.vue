@@ -18,7 +18,10 @@
               <td>{{ item.topic }}</td>
               <td>{{ formatDate(item.updatedAt) }}</td>
               <td>{{ countListItems(item.abclist) }} / 26</td>
-              <td><v-btn color="primary" nuxt :to="{path: '/list/' + item._id}">Open</v-btn></td>
+              <td>
+                <v-btn color="primary" nuxt :to="{path: '/list/' + item._id}"><v-icon>mdi-pencil</v-icon></v-btn>
+                <v-btn color="primary" nuxt @click="deleteList(item._id, $event)"><v-icon>mdi-delete</v-icon></v-btn>
+              </td>
             </tr>
           </tbody>
       </v-simple-table>
@@ -87,6 +90,20 @@ export default {
           }
         });
         return count;
+      },
+      async deleteList(listId, event) {
+          await this.$axios.$delete('http://localhost:3000/v1/abclists/' + listId)
+            .then((response) => {
+              console.log(response);
+              console.log(event);
+              this.$root.$emit('showSnackbar', 'List was deleted');
+              location.reload();
+            })
+            .catch((err) => {
+              // If any part of the chain is rejected, print the error message.
+              this.$root.$emit('showSnackbar', 'List could not be deleted');
+              console.log(err);
+            });
       },
     },
   }

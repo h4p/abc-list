@@ -16,7 +16,7 @@
 
       <v-row>
         <v-col class="text-right">
-          <v-btn color="primary" type="submit">{{ isUpdate ? 'Update' : 'Save'}}</v-btn>
+          <v-btn color="primary" type="submit">Update</v-btn>
           <v-btn color="tertiary" nuxt :to="{path: '/overview'}">Abort</v-btn>
         </v-col>
       </v-row>
@@ -43,8 +43,6 @@ export default {
   },
     // **** Lifecycle Hooks **** //
     created() {
-      console.log('Component has been created!');
-
       if(this.$route.params.list === null || this.$route.params.list === undefined) {
         this.$router.app.refresh();
         console.log("Request with no query params. User wants to create a new list");
@@ -70,17 +68,8 @@ export default {
 
 
     },
-    mounted() {
-      console.log('Component has been mounted!');
-
-      // DOM is ready by now. Component was added to DOM
-    },
-    destroyed() {
-      console.log('Component has been destroyed!');
-    },
     methods: {
       async updateList() {
-
           console.log('Patching..');
 
           // Prepare json object for update

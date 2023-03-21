@@ -16,7 +16,7 @@
 
       <v-row>
         <v-col class="text-right">
-          <v-btn color="primary" type="submit">{{ isUpdate ? 'Update' : 'Save'}}</v-btn>
+          <v-btn color="primary" type="submit">Save</v-btn>
           <v-btn color="tertiary" nuxt :to="{path: '/overview'}">Abort</v-btn>
         </v-col>
       </v-row>
@@ -70,8 +70,12 @@ export default {
 
             })
             .catch((err) => {
+              console.log("Error while saving list");
+              if (err.response.status === 401) {
+                console.log("Please login first!");
+              }
               // If any part of the chain is rejected, print the error message.
-              this.$root.$emit('showSnackbar', 'Oops! An error occurred!');
+              this.$root.$emit('showSnackbar', 'List could not be saved!');
               console.log(err);
             });
 

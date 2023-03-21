@@ -43,7 +43,7 @@
             :rules="[(registration.password === registration.confirm_password) || 'Password must match']"
             :type="show1 ? 'text' : 'password'"
             name="input-10-1"
-            label="Password"
+            label="Password Confirmation"
             hint="At least 8 characters"
             counter
             required

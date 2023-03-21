@@ -120,27 +120,21 @@ export default {
           to: '/',
         },
         {
-          icon: 'mdi-library',
-          title: 'ABC-Listen',
-          to: '/overview',
-        },
-        {
-          icon: 'mdi-check-decagram',
-          title: 'About',
-          to: '/about',
-        },
-        {
           icon: 'mdi-file-plus',
-          title: 'New',
+          title: 'Neue Liste',
           to: '/list',
         },
-
+        {
+          icon: 'mdi-library',
+          title: 'Meine Listen',
+          to: '/overview',
+        },
       ],
       miniVariant: false,
       right: true,
       title: 'ABC Liste',
       profile_menu_items: [
-        { 'title': 'My settings' },
+        { 'title': 'Meine Einstellungen' },
         { 'title': 'Logout' }
       ],
 
